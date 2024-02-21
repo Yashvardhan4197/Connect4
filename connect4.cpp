@@ -107,7 +107,7 @@ class ManageGame{
     else if(winCond==0){
         cout<<"Game Quit"<<endl;
     }
-    cout<<"To Play Again Press Y or anything else to end game"<<endl;
+    cout<<"----To Play Again Press Y or anything else to end game----"<<endl;
     char playAgain;
     cin>>playAgain;
     return playAgain;
@@ -205,6 +205,7 @@ class ManageGame{
         int k=1;
         bool temp=true;
         char pos;
+        //set pos value
         if(arr[i][j]=='R'){
             pos=arr[i][j];
         }
@@ -266,12 +267,36 @@ class ManageGame{
             }
         }
 
-        //diagnol
+        //diagnol left to right
+        
+        // temp=true;
+        // num=1;
+        // k=1;
+        // while(temp==true||num<4){
+        //     if(arr[i+k][j+k]==pos){
+        //         num++;
+        //     }
+        //     else{
+        //         temp=false;
+        //         break;
+        //     }
+        //     k++;
+        // }
+        // if(num==4){
+        //     if(pos=='R'){
+        //         return 1;
+        //     }
+        //     else{
+        //         return 2;
+        //     }
+        // }
+
+        //diagonal right to left
         temp=true;
-        num=1;
         k=1;
+        num=1;
         while(temp==true||num<4){
-            if(arr[i+k][j+k]==pos){
+            if(arr[i+k][j-k]==pos){
                 num++;
             }
             else{
@@ -288,7 +313,6 @@ class ManageGame{
                 return 2;
             }
         }
-
         return 0;
     }
 
@@ -312,7 +336,6 @@ class Game{
             while(playing=='y'||playing=='Y'){
             ManageGame gameManager;
             playing=gameManager.playGame();
-
             }
         }
         else
@@ -327,11 +350,5 @@ int main()
 {
     Game game;
     game.startGame();
-    // char choose=des.wannaPlay();
-    // if(choose=='y'||choose=='Y'){
-    //     cout<<"\nPlaying Game";
-    // }else{
-    //     cout<<"ended game bye";
-    // }
     return 0;
 }

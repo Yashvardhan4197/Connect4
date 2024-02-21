@@ -44,6 +44,7 @@ class ManageGame{
     bool currentStat=false;
     int whoseTurn=1;
     int location=0;
+    int winCond=0;
     public:
     ManageGame()
     {
@@ -60,26 +61,51 @@ class ManageGame{
             currentStat=true;
             full=checkArray();
         }
-    while(full==false)
+    while(full==false&&winCond==0)
     {
         if(whoseTurn==1){
             cout<<"\nPlayer 1 :\nEnter Column number"<<endl;
             cin>>location;
+            if(location<7&&location>=0)
+            {
             changeArray(location-1);
             whoseTurn=2;
             printArray();
+            winCond=WinningStatus();
+            if(winCond==1){break;}
+            }
+            else{
+                cout<<"\n___Invalid Move/Column___ Try Again"<<endl;
+            }
         }
         if(whoseTurn==2){
             cout<<"\nPlayer 2 :\nEnter Column number"<<endl;
             cin>>location;
+            if(location<7&&location>=0)
+            {
             changeArray(location-1);
             whoseTurn=1;
             printArray();
+            winCond=WinningStatus();
+            if(winCond==2){break;}
+            }
+            else{
+                 cout<<"\n___Invalid Move/Column___ #Try Again"<<endl;
+            }
         }
         full=checkArray();
     }
     if(full==true){
         cout<<"This is a draw";
+    }
+    else if(winCond==1){
+        cout<<"Player 1 Won"<<endl;
+    }
+    else if(winCond==2){
+        cout<<"Player 2 won"<<endl;
+    }
+    else if(winCond==0){
+        cout<<"Game Quit"<<endl;
     }
 
 
@@ -156,6 +182,112 @@ class ManageGame{
     }
 
 
+    int WinningStatus(){
+        for(int i=0;i<6;i++){
+            for(int j=0;j<7;j++){
+                int stat=WinningStatInterior(i,j);
+                if(stat==1){
+                    return 1;
+                }
+                else if(stat==2){
+                    return 2;
+                }
+            }
+        }
+        return 0;
+    }
+
+    int WinningStatInterior(int i,int j){
+        int num=1;
+        int k=1;
+        bool temp=true;
+        char pos;
+        if(arr[i][j]=='R'){
+            pos=arr[i][j];
+        }
+        else if(arr[i][j]=='B'){
+            pos=arr[i][j];
+        }
+        else{ return 0;}
+        //horizontal
+        temp=true;
+        num=1;
+        k=1;
+        while(temp==true||num<4){
+            if(j<6){
+            if(arr[i][j+k]==pos){
+                num++;
+            }
+            else if(arr[i][j+k]!=pos){
+                temp=false;
+                break;
+            }
+            k++;
+            }else{
+                break;
+            }
+        }
+        //check if win then return
+        if(num==4){
+            if(pos=='R'){
+                cout<<"Status of winning is: 1"<<endl;
+                return 1;
+            }
+            else{
+                cout<<"Status of winning is: 1"<<endl;
+                return 2;
+            }
+        }
+
+        //vertical
+        temp=true;
+        num=1;
+        k=1;
+        while(temp==true||num<4){
+            if(arr[i+k][j]==pos){
+                num++;
+            }
+            else{
+                temp=false;
+                break;
+            }
+            k++;
+        }
+        //check if win then return
+        if(num==4){
+            if(pos=='R'){
+                return 1;
+            }
+            else{
+                return 2;
+            }
+        }
+
+        //diagnol
+        temp=true;
+        num=1;
+        k=1;
+        while(temp==true||num<4){
+            if(arr[i+k][j+k]==pos){
+                num++;
+            }
+            else{
+                temp=false;
+                break;
+            }
+            k++;
+        }
+        if(num==4){
+            if(pos=='R'){
+                return 1;
+            }
+            else{
+                return 2;
+            }
+        }
+
+        return 0;
+    }
 
 };
 

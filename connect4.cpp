@@ -81,7 +81,7 @@ class ManageGame{
         if(whoseTurn==2){
             cout<<"\nPlayer 2 :\nEnter Column number"<<endl;
             cin>>location;
-            if(location<7&&location>=0)
+            if(location<8&&location>=0)
             {
             changeArray(location-1);
             whoseTurn=1;
@@ -96,13 +96,13 @@ class ManageGame{
         full=checkArray();
     }
     if(full==true){
-        cout<<"This is a draw";
+        cout<<"\n\t--This is a draw--\n";
     }
     else if(winCond==1){
-        cout<<"Player 1 Won"<<endl;
+        cout<<"\n\t--Player 1 Won--"<<endl;
     }
     else if(winCond==2){
-        cout<<"Player 2 won"<<endl;
+        cout<<"\n\t--Player 2 won--"<<endl;
     }
     else if(winCond==0){
         cout<<"Game Quit"<<endl;
@@ -234,11 +234,9 @@ class ManageGame{
         //check if win then return
         if(num==4){
             if(pos=='R'){
-                cout<<"Status of winning is: 1"<<endl;
                 return 1;
             }
             else{
-                cout<<"Status of winning is: 1"<<endl;
                 return 2;
             }
         }
@@ -268,7 +266,7 @@ class ManageGame{
         }
 
         //diagnol left to right
-        
+
         // temp=true;
         // num=1;
         // k=1;
@@ -338,10 +336,10 @@ class Game{
             playing=gameManager.playGame();
             }
         }
-        else
-        {
-            cout<<"ended game bye";
-        }
+        //Ending game
+        cout<<"\t---------------------"<<endl
+        <<"\t|   Ended Game Bye!  |\t   "<<endl
+        <<"\t---------------------"<<endl;
     }
 
 };

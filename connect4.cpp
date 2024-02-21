@@ -54,7 +54,7 @@ class ManageGame{
             }
         }
     }
-    void playGame()
+    char playGame()
     {
         if(currentStat==false){
             printArray();
@@ -107,7 +107,10 @@ class ManageGame{
     else if(winCond==0){
         cout<<"Game Quit"<<endl;
     }
-
+    cout<<"To Play Again Press Y or anything else to end game"<<endl;
+    char playAgain;
+    cin>>playAgain;
+    return playAgain;
 
     }
     //Print the array on screen
@@ -294,7 +297,7 @@ class ManageGame{
 
 class Game{
     private:
-        ManageGame gameManager;
+        //ManageGame gameManager;
     public:
     desc des;
     char choose;
@@ -302,11 +305,15 @@ class Game{
         choose=des.wannaPlay();
     }
     void startGame(){
+        char playing='y';
         if(choose=='y'||choose=='Y')
         {
             cout<<"\nPlaying Game\n";
-            gameManager.playGame();
+            while(playing=='y'||playing=='Y'){
+            ManageGame gameManager;
+            playing=gameManager.playGame();
 
+            }
         }
         else
         {

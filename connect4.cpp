@@ -56,6 +56,7 @@ class ManageGame{
     }
     char playGame()
     {
+        int done=0 ;
         if(currentStat==false){
             printArray();
             currentStat=true;
@@ -68,8 +69,10 @@ class ManageGame{
             cin>>location;
             if(location<7&&location>=0)
             {
-            changeArray(location-1);
+            done=changeArray(location-1);
+            if(done==2){
             whoseTurn=2;
+            }
             printArray();
             winCond=WinningStatus();
             if(winCond==1){break;}
@@ -83,8 +86,10 @@ class ManageGame{
             cin>>location;
             if(location<8&&location>=0)
             {
-            changeArray(location-1);
+            done=changeArray(location-1);
+            if(done==1){
             whoseTurn=1;
+            }
             printArray();
             winCond=WinningStatus();
             if(winCond==2){break;}
@@ -95,10 +100,7 @@ class ManageGame{
         }
         full=checkArray();
     }
-    if(full==true){
-        cout<<"\n\t--This is a draw--\n";
-    }
-    else if(winCond==1){
+    if(winCond==1){
         cout<<"\n\t--Player 1 Won--"<<endl;
     }
     else if(winCond==2){
@@ -106,6 +108,9 @@ class ManageGame{
     }
     else if(winCond==0){
         cout<<"Game Quit"<<endl;
+    }
+    else if(full==true){
+        cout<<"\n\t--This is a draw--\n";
     }
     cout<<"----To Play Again Press Y or anything else to end game----"<<endl;
     char playAgain;
@@ -154,30 +159,51 @@ class ManageGame{
 
 
     //adds changes to array
-    void changeArray(int j)
+    int changeArray(int j)
     {
         for(int i=0;i<5;i++){
             if(arr[i+1][j]!='0'){
                 if(whoseTurn==1&&arr[i][j]!='B')
                 {
+                    if(arr[i][j]!='0')
+                    {
+                        cout<<"\n---Retry Already Full---"<<endl;
+                         return 1;
+                    }
+                    else
+                    {
                     arr[i][j]='R';
+                    return 2;
                     break;
+                    }
+                    return 2;
                 }
                 else if(whoseTurn==2&&arr[i][j]!='A')
                 {
+                    if(arr[i][j]!='0')
+                    {
+                        cout<<"\n---Retry Already Full---"<<endl;
+                        return 2;
+                    }
+                    else{
                     arr[i][j]='B';
+                    return 1;
                     break;
+                    }
+                    return 1;
                 }
             }
             else if((i+1==5)&& (arr[i+1][j]=='0')){
                 if(whoseTurn==1)
                 {
                     arr[i+1][j]='R';
+                    return 2;
                     break;
                 }
                 else
                 {
                     arr[i+1][j]='B';
+                    return 1;
                     break;
                 }
             }
@@ -246,6 +272,7 @@ class ManageGame{
         num=1;
         k=1;
         while(temp==true||num<4){
+            if(i<5){
             if(arr[i+k][j]==pos){
                 num++;
             }
@@ -254,6 +281,10 @@ class ManageGame{
                 break;
             }
             k++;
+            }
+            else{
+                break;
+            }
         }
         //check if win then return
         if(num==4){
@@ -294,6 +325,7 @@ class ManageGame{
         k=1;
         num=1;
         while(temp==true||num<4){
+            if(i<5&&j>0){
             if(arr[i+k][j-k]==pos){
                 num++;
             }
@@ -302,6 +334,10 @@ class ManageGame{
                 break;
             }
             k++;
+            }else
+            {
+                break;
+            }
         }
         if(num==4){
             if(pos=='R'){
@@ -331,9 +367,10 @@ class Game{
         if(choose=='y'||choose=='Y')
         {
             cout<<"\nPlaying Game\n";
-            while(playing=='y'||playing=='Y'){
-            ManageGame gameManager;
-            playing=gameManager.playGame();
+            while(playing=='y'||playing=='Y')
+            {
+                ManageGame gameManager;
+                playing=gameManager.playGame();
             }
         }
         //Ending game

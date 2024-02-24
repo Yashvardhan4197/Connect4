@@ -244,6 +244,7 @@ class ManageGame{
         num=1;
         k=1;
         while(temp==true||num<4){
+            //I AM CHECKING THE OUT OF BOUNDS CONDITION HERE
             if(j<6){
             if(arr[i][j+k]==pos){
                 num++;
@@ -272,6 +273,7 @@ class ManageGame{
         num=1;
         k=1;
         while(temp==true||num<4){
+            //I AM CHECKING THE OUT OF BOUNDS CONDITION HERE
             if(i<5){
             if(arr[i+k][j]==pos){
                 num++;
@@ -298,33 +300,40 @@ class ManageGame{
 
         //diagnol left to right
 
-        // temp=true;
-        // num=1;
-        // k=1;
-        // while(temp==true||num<4){
-        //     if(arr[i+k][j+k]==pos){
-        //         num++;
-        //     }
-        //     else{
-        //         temp=false;
-        //         break;
-        //     }
-        //     k++;
-        // }
-        // if(num==4){
-        //     if(pos=='R'){
-        //         return 1;
-        //     }
-        //     else{
-        //         return 2;
-        //     }
-        // }
+        temp=true;
+        num=1;
+        k=1;
+        while(temp==true||num<4){
+            //I AM CHECKING THE OUT OF BOUNDS CONDITION HERE
+            if(i<5&&j<7){
+            if(arr[i+k][j+k]==pos){
+                num++;
+            }
+            else{
+                temp=false;
+                break;
+            }
+            k++;
+            }else
+            {
+                break;
+            }
+        }
+        if(num==4){
+            if(pos=='R'){
+                return 1;
+            }
+            else{
+                return 2;
+            }
+        }
 
         //diagonal right to left
         temp=true;
         k=1;
         num=1;
         while(temp==true||num<4){
+            //I AM CHECKING THE OUT OF BOUNDS CONDITION HERE
             if(i<5&&j>0){
             if(arr[i+k][j-k]==pos){
                 num++;

@@ -35,91 +35,10 @@ char wannaPlay(){
 
 };
 
+class PrintBoard{
+public:
 
-
-class ManageGame{
-    private:
-    char arr[6][7];
-    bool full=false;
-    bool currentStat=false;
-    int whoseTurn=1;
-    int location=0;
-    int winCond=0;
-    public:
-    ManageGame()
-    {
-        for(int i=0;i<6;i++){
-            for(int j=0;j<7;j++){
-                arr[i][j]='0';
-            }
-        }
-    }
-    char playGame()
-    {
-        int done=0 ;
-        if(currentStat==false){
-            printArray();
-            currentStat=true;
-            full=checkArray();
-        }
-    while(full==false&&winCond==0)
-    {
-        if(whoseTurn==1){
-            cout<<"\nPlayer 1 :\nEnter Column number"<<endl;
-            cin>>location;
-            if(location<7&&location>=0)
-            {
-            done=changeArray(location-1);
-            if(done==2){
-            whoseTurn=2;
-            }
-            printArray();
-            winCond=WinningStatus();
-            if(winCond==1){break;}
-            }
-            else{
-                cout<<"\n___Invalid Move/Column___ Try Again"<<endl;
-            }
-        }
-        if(whoseTurn==2){
-            cout<<"\nPlayer 2 :\nEnter Column number"<<endl;
-            cin>>location;
-            if(location<8&&location>=0)
-            {
-            done=changeArray(location-1);
-            if(done==1){
-            whoseTurn=1;
-            }
-            printArray();
-            winCond=WinningStatus();
-            if(winCond==2){break;}
-            }
-            else{
-                 cout<<"\n___Invalid Move/Column___ #Try Again"<<endl;
-            }
-        }
-        full=checkArray();
-    }
-    if(winCond==1){
-        cout<<"\n\t--Player 1 Won--"<<endl;
-    }
-    else if(winCond==2){
-        cout<<"\n\t--Player 2 won--"<<endl;
-    }
-    else if(winCond==0){
-        cout<<"Game Quit"<<endl;
-    }
-    else if(full==true){
-        cout<<"\n\t--This is a draw--\n";
-    }
-    cout<<"----To Play Again Press Y or anything else to end game----"<<endl;
-    char playAgain;
-    cin>>playAgain;
-    return playAgain;
-
-    }
-    //Print the array on screen
-    void printArray(){
+void printArray(char arr[][7]){
         for(int i=0;i<6;i++)
             {
                 cout<<"----------------"<<endl;
@@ -139,8 +58,14 @@ class ManageGame{
             }
     }
 
-    //checks whether the array is full or not
-    bool checkArray(){
+
+
+};
+
+class CheckArray{
+
+public:
+bool check(char arr[][7]){
         int numbers=0;
         for(int i=0;i<6;i++){
             for(int j=0;j<7;j++){
@@ -158,63 +83,19 @@ class ManageGame{
     }
 
 
-    //adds changes to array
-    int changeArray(int j)
-    {
-        for(int i=0;i<5;i++){
-            if(arr[i+1][j]!='0'){
-                if(whoseTurn==1&&arr[i][j]!='B')
-                {
-                    if(arr[i][j]!='0')
-                    {
-                        cout<<"\n---Retry Already Full---"<<endl;
-                         return 1;
-                    }
-                    else
-                    {
-                    arr[i][j]='R';
-                    return 2;
-                    break;
-                    }
-                    return 2;
-                }
-                else if(whoseTurn==2&&arr[i][j]!='A')
-                {
-                    if(arr[i][j]!='0')
-                    {
-                        cout<<"\n---Retry Already Full---"<<endl;
-                        return 2;
-                    }
-                    else{
-                    arr[i][j]='B';
-                    return 1;
-                    break;
-                    }
-                    return 1;
-                }
-            }
-            else if((i+1==5)&& (arr[i+1][j]=='0')){
-                if(whoseTurn==1)
-                {
-                    arr[i+1][j]='R';
-                    return 2;
-                    break;
-                }
-                else
-                {
-                    arr[i+1][j]='B';
-                    return 1;
-                    break;
-                }
-            }
-        }
-    }
+};
 
 
-    int WinningStatus(){
+
+class WinCondition{
+
+private:
+public:
+
+int WinningStatus(char arr[][7]){
         for(int i=0;i<6;i++){
             for(int j=0;j<7;j++){
-                int stat=WinningStatInterior(i,j);
+                int stat=WinningStatInterior(i,j,arr);
                 if(stat==1){
                     return 1;
                 }
@@ -226,7 +107,7 @@ class ManageGame{
         return 0;
     }
 
-    int WinningStatInterior(int i,int j){
+    int WinningStatInterior(int i,int j,char arr[][7]){
         int num=1;
         int k=1;
         bool temp=true;
@@ -362,6 +243,157 @@ class ManageGame{
 };
 
 
+class ChangeArray{
+public:
+
+int Refresh(char (&arr)[6][7],int j,int whoseTurn){
+     for(int i=0;i<5;i++){
+            if(arr[i+1][j]!='0'){
+                if(whoseTurn==1&&arr[i][j]!='B')
+                {
+                    if(arr[i][j]!='0')
+                    {
+                        cout<<"\n---Retry Already Full---"<<endl;
+                         return 1;
+                    }
+                    else
+                    {
+                    arr[i][j]='R';
+                    return 2;
+                    break;
+                    }
+                    return 2;
+                }
+                else if(whoseTurn==2&&arr[i][j]!='A')
+                {
+                    if(arr[i][j]!='0')
+                    {
+                        cout<<"\n---Retry Already Full---"<<endl;
+                        return 2;
+                    }
+                    else{
+                    arr[i][j]='B';
+                    return 1;
+                    break;
+                    }
+                    return 1;
+                }
+            }
+            else if((i+1==5)&& (arr[i+1][j]=='0')){
+                if(whoseTurn==1)
+                {
+                    arr[i+1][j]='R';
+                    return 2;
+                    break;
+                }
+                else
+                {
+                    arr[i+1][j]='B';
+                    return 1;
+                    break;
+                }
+            }
+        }
+
+
+}
+};
+
+class GameManager{
+    private:
+    //Objects-
+    PrintBoard printBoard;
+    CheckArray checkArray;
+    ChangeArray changeArray;
+    WinCondition isWin;
+
+
+    char arr[6][7];
+    bool full=false;
+    bool currentStat=false;
+    int whoseTurn=1;
+    int location=0;
+    int winCond=0;
+    public:
+    GameManager()
+    {
+        for(int i=0;i<6;i++){
+            for(int j=0;j<7;j++){
+                arr[i][j]='0';
+            }
+        }
+    }
+
+    //Game Manager only manages the play Game-
+    char playGame()
+    {
+        int done=0 ;
+        if(currentStat==false){
+            printBoard.printArray(arr);
+            currentStat=true;
+            full=checkArray.check(arr);
+        }
+    while(full==false&&winCond==0)
+    {
+        if(whoseTurn==1){
+            cout<<"\nPlayer 1 :\nEnter Column number"<<endl;
+            cin>>location;
+            //Removed Bugs-
+            if(location<8&&location>0)
+            {
+            done=changeArray.Refresh(arr,location-1,whoseTurn);
+            if(done==2){
+            whoseTurn=2;
+            }
+            printBoard.printArray(arr);
+            winCond=isWin.WinningStatus(arr);
+            if(winCond==1){break;}
+            }
+            else{
+                cout<<"\n___Invalid Move/Column___ Try Again"<<endl;
+            }
+        }
+        if(whoseTurn==2){
+            cout<<"\nPlayer 2 :\nEnter Column number"<<endl;
+            cin>>location;
+            if(location<8&&location>0)
+            {
+            done=changeArray.Refresh(arr,location-1,whoseTurn);
+            if(done==1){
+            whoseTurn=1;
+            }
+            printBoard.printArray(arr);
+            winCond=isWin.WinningStatus(arr);
+            if(winCond==2){break;}
+            }
+            else{
+                 cout<<"\n___Invalid Move/Column___ #Try Again"<<endl;
+            }
+        }
+        full=checkArray.check(arr);
+    }
+    if(winCond==1){
+        cout<<"\n\t--Player 1 Won--"<<endl;
+    }
+    else if(winCond==2){
+        cout<<"\n\t--Player 2 won--"<<endl;
+    }
+    else if(winCond==0){
+        cout<<"Game Quit"<<endl;
+    }
+    else if(full==true){
+        cout<<"\n\t--This is a draw--\n";
+    }
+    cout<<"----To Play Again Press Y or anything else to end game----"<<endl;
+    char playAgain;
+    cin>>playAgain;
+    return playAgain;
+
+    }
+
+};
+
+
 class Game{
     private:
         //ManageGame gameManager;
@@ -378,7 +410,7 @@ class Game{
             cout<<"\nPlaying Game\n";
             while(playing=='y'||playing=='Y')
             {
-                ManageGame gameManager;
+                GameManager gameManager;
                 playing=gameManager.playGame();
             }
         }
